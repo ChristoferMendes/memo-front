@@ -21,6 +21,8 @@ import {
   Montserrat_600SemiBold,
   Montserrat_700Bold,
 } from "@expo-google-fonts/montserrat";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "../services/apollo";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -59,12 +61,19 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <NativeBaseProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(login)/login" options={{ headerShown: false }} />
-        </Stack>
-      </ThemeProvider>
-    </NativeBaseProvider>
+    <ApolloProvider client={client}>
+      <NativeBaseProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <Stack>
+            <Stack.Screen
+              name="(login)/login"
+              options={{ headerShown: false }}
+            />
+          </Stack>
+        </ThemeProvider>
+      </NativeBaseProvider>
+    </ApolloProvider>
   );
 }
