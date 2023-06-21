@@ -11,20 +11,34 @@ import Form from "native-base-formify";
 import { Button, Icon } from "native-base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MotiView } from "moti";
+import { useLoginMutation } from "../../hooks/useLoginMutation";
+import { tryCatch } from "../../utils/tryCatch";
 
 const labelTextProps = {
   _text: { fontFamily: Poppins_500Medium, color: "white" },
 };
 
-export function LoginForm({ onLogin }: { onLogin: (user: User) => void }) {
+export function LoginForm() {
   const {
     control,
     formState: { errors },
+    setError,
     handleSubmit,
   } = useForm<User>({
     resolver: zodResolver(UserSchema),
   });
   const [isPasswordOn, setIsPasswordOn] = useState(true);
+  const [login] = useLoginMutation(setError);
+
+  const onLogin = async (data: User) => {
+    const [result, error] = await tryCatch(login(data.email, data.password));
+
+    if (error || !result) {
+      return setError("email", { message: "Oops, something wen wrong" });
+    }
+
+    console.log(result.data?.login);
+  };
 
   return (
     <MotiView
@@ -75,6 +89,9 @@ export function LoginForm({ onLogin }: { onLogin: (user: User) => void }) {
         bgColor={"#084E4E"}
         _text={{ fontFamily: Poppins_700Bold }}
         onPress={handleSubmit(onLogin)}
+        _pressed={{
+          backgroundColor: "cyan.900",
+        }}
       >
         Login
       </Button>

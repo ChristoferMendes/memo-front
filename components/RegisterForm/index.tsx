@@ -26,8 +26,6 @@ export function RegisterForm() {
       from={{ scale: 0.5 }}
       animate={{ scale: 1 }}
       transition={{ type: "timing", duration: 600 }}
-      //   exit={{ scale: 0.5, opacity: 0 }}
-      //   exitTransition={{ duration: 1200, type: "timing" }}
     >
       <Form control={control} errors={errors}>
         <Form.Input

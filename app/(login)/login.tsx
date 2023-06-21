@@ -1,24 +1,13 @@
 import { Button, Image, ScrollView, Text, VStack, View } from "native-base";
 import { Poppins_600SemiBold, Poppins_700Bold } from "../../constants/Fonts";
 import { LoginDivider } from "../../components/LoginDivider";
-import { User } from "./schema";
-import { useLoginMutation } from "../../hooks/useLoginMutation";
 import { LoginForm } from "../../components/LoginForm";
-import { useRouter } from "expo-router";
 import { useState } from "react";
 import { RegisterForm } from "../../components/RegisterForm";
 import { AnimatePresence } from "moti";
-import { URI } from "@env";
 
 export default function Login() {
-  const [login] = useLoginMutation();
-  const router = useRouter();
   const [isRegister, setIsRegister] = useState(false);
-
-  const onLogin = (data: User) => {
-    login(data.email, data.password);
-    // router.push("/home");
-  };
 
   const toggleRegister = () => {
     setIsRegister(!isRegister);
@@ -40,7 +29,7 @@ export default function Login() {
       <ScrollView>
         <VStack mx="8" mt="5">
           <AnimatePresence>
-            {isRegister ? <RegisterForm /> : <LoginForm onLogin={onLogin} />}
+            {isRegister ? <RegisterForm /> : <LoginForm />}
           </AnimatePresence>
           <VStack alignItems={"center"}>
             <LoginDivider />
