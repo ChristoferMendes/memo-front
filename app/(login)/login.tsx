@@ -1,10 +1,11 @@
-import { Button, Image, ScrollView, Text, VStack, View } from "native-base";
-import { Poppins_600SemiBold, Poppins_700Bold } from "../../constants/Fonts";
-import { LoginDivider } from "../../components/LoginDivider";
-import { LoginForm } from "../../components/LoginForm";
-import { useState } from "react";
-import { RegisterForm } from "../../components/RegisterForm";
-import { AnimatePresence } from "moti";
+import { AnimatePresence } from 'moti';
+import { Button, Image, ScrollView, Text, VStack, View } from 'native-base';
+import { useState } from 'react';
+
+import { LoginDivider } from '../../components/LoginDivider';
+import { LoginForm } from '../../components/LoginForm';
+import { RegisterForm } from '../../components/RegisterForm';
+import { Poppins_600SemiBold, Poppins_700Bold } from '../../constants/Fonts';
 
 export default function Login() {
   const [isRegister, setIsRegister] = useState(false);
@@ -14,42 +15,35 @@ export default function Login() {
   };
 
   return (
-    <View flex={1} bgColor={"#1C1C1C"}>
+    <View flex={1} bgColor="#1C1C1C">
       <Image
-        bgColor={"red.600"}
-        w={"full"}
-        h={"43%"}
+        bgColor="red.600"
+        w="full"
+        h="43%"
         borderBottomLeftRadius={60}
         borderBottomRightRadius={60}
         source={{
-          uri: "https://cdn.domestika.org/c_limit,dpr_auto,f_auto,q_auto,w_820/v1480268116/content-items/001/786/053/chapter_4_mp_web-original.jpg?1480268116",
+          uri: 'https://cdn.domestika.org/c_limit,dpr_auto,f_auto,q_auto,w_820/v1480268116/content-items/001/786/053/chapter_4_mp_web-original.jpg?1480268116',
         }}
         alt="Ukiyo-e"
       />
       <ScrollView>
         <VStack mx="8" mt="5">
-          <AnimatePresence>
-            {isRegister ? <RegisterForm /> : <LoginForm />}
-          </AnimatePresence>
-          <VStack alignItems={"center"}>
+          <AnimatePresence>{isRegister ? <RegisterForm /> : <LoginForm />}</AnimatePresence>
+          <VStack alignItems="center">
             <LoginDivider />
-            <Text
-              color={"white"}
-              fontSize={"lg"}
-              fontFamily={Poppins_600SemiBold}
-            >
+            <Text color="white" fontSize="lg" fontFamily={Poppins_600SemiBold}>
               OR
             </Text>
             <LoginDivider />
           </VStack>
           <Button
             bg="#084E4E"
-            borderRadius={"lg"}
+            borderRadius="lg"
             _text={{ fontFamily: Poppins_700Bold }}
             onPress={toggleRegister}
-            mb="5"
-          >
-            {isRegister ? "Login" : "Register"}
+            mb="5">
+            {isRegister ? 'Login' : 'Register'}
           </Button>
         </VStack>
       </ScrollView>

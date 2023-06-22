@@ -1,21 +1,18 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { User, UserSchema } from "../../app/(login)/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Montserrat_500Medium,
-  Poppins_500Medium,
-  Poppins_700Bold,
-} from "../../constants/Fonts";
-import Form from "native-base-formify";
-import { Button, Icon } from "native-base";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MotiView } from "moti";
-import { useLoginMutation } from "../../hooks/useLoginMutation";
-import { tryCatch } from "../../utils/tryCatch";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { MotiView } from 'moti';
+import { Button, Icon } from 'native-base';
+import Form from 'native-base-formify';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import { User, UserSchema } from '../../app/(login)/schema';
+import { Montserrat_500Medium, Poppins_500Medium, Poppins_700Bold } from '../../constants/Fonts';
+import { useLoginMutation } from '../../hooks/useLoginMutation';
+import { tryCatch } from '../../utils/tryCatch';
 
 const labelTextProps = {
-  _text: { fontFamily: Poppins_500Medium, color: "white" },
+  _text: { fontFamily: Poppins_500Medium, color: 'white' },
 };
 
 export function LoginForm() {
@@ -34,7 +31,7 @@ export function LoginForm() {
     const [result, error] = await tryCatch(login(data.email, data.password));
 
     if (error || !result) {
-      return setError("email", { message: "Oops, something wen wrong" });
+      return setError('email', { message: 'Oops, something wen wrong' });
     }
 
     console.log(result.data?.login);
@@ -44,40 +41,35 @@ export function LoginForm() {
     <MotiView
       from={{ scale: 0.5 }}
       animate={{ scale: 1 }}
-      transition={{ type: "timing", duration: 600 }}
-    >
+      transition={{ type: 'timing', duration: 600 }}>
       <Form control={control} errors={errors}>
         <Form.Input
           name="email"
           label="Email"
           borderRadius={0}
           borderBottomRightRadius={50}
-          borderWidth={"0"}
+          borderWidth="0"
           placeholder="your_name@gmail.com"
-          backgroundColor={"white"}
+          backgroundColor="white"
           _labelProps={labelTextProps}
           fontFamily={Montserrat_500Medium}
         />
         <Form.Input
           name="password"
           label="Password"
-          type={isPasswordOn ? "password" : "text"}
-          bgColor={"white"}
-          borderWidth={"0"}
-          _labelProps={{ mt: "5" }}
-          borderRadius={"none"}
-          placeholder={isPasswordOn ? "***********" : "my_password"}
+          type={isPasswordOn ? 'password' : 'text'}
+          bgColor="white"
+          borderWidth="0"
+          _labelProps={{ mt: '5' }}
+          borderRadius="none"
+          placeholder={isPasswordOn ? '***********' : 'my_password'}
           fontFamily={Montserrat_500Medium}
           rightElement={
             <Icon
               onPress={() => setIsPasswordOn((prev) => !prev)}
-              as={
-                <MaterialCommunityIcons
-                  name={isPasswordOn ? "eye-minus" : "eye-check"}
-                />
-              }
+              as={<MaterialCommunityIcons name={isPasswordOn ? 'eye-minus' : 'eye-check'} />}
               mr="3"
-              size={"7"}
+              size="7"
             />
           }
         />
@@ -86,13 +78,12 @@ export function LoginForm() {
       <Button
         borderBottomLeftRadius={50}
         borderBottomRightRadius={50}
-        bgColor={"#084E4E"}
+        bgColor="#084E4E"
         _text={{ fontFamily: Poppins_700Bold }}
         onPress={handleSubmit(onLogin)}
         _pressed={{
-          backgroundColor: "cyan.900",
-        }}
-      >
+          backgroundColor: 'cyan.900',
+        }}>
         Login
       </Button>
     </MotiView>
