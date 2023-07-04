@@ -15,10 +15,11 @@ import {
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider, View } from 'native-base';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
+import { AuthProvider } from '../context/auth';
 import { client } from '../services/apollo';
 
 export {
@@ -58,14 +59,17 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ApolloProvider client={client}>
-      <NativeBaseProvider>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
-            <Stack.Screen name="(login)/login" options={{ headerShown: false }} />
-          </Stack>
-        </ThemeProvider>
-      </NativeBaseProvider>
-    </ApolloProvider>
+    <AuthProvider>
+      <ApolloProvider client={client}>
+        <NativeBaseProvider>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+              <Stack.Screen name="(auth)/login/index" options={{ headerShown: false }} />
+              <Stack.Screen name="home/index" options={{ headerShown: false }} />
+            </Stack>
+          </ThemeProvider>
+        </NativeBaseProvider>
+      </ApolloProvider>
+    </AuthProvider>
   );
 }

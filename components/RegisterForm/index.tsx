@@ -1,11 +1,21 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useFocusEffect } from 'expo-router';
 import { MotiView } from 'moti';
 import { Button, Icon } from 'native-base';
 import Form from 'native-base-formify';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { UserRegister, UserRegisterSchema } from './schema';
+import { DEFAULT_ERROR_MESSAGE } from '../../constants/DefaultErrorMessage';
 import { Montserrat_500Medium, Poppins_500Medium, Poppins_700Bold } from '../../constants/Fonts';
+import { useLoginMutation } from '../../hooks/auth/useLoginMutation';
+import { useSignIn } from '../../hooks/auth/useSignIn';
+import { useBooleanState } from '../../hooks/useBooleanState';
+import { useCreateUserMutation } from '../../hooks/useCreateUserMutation';
+import { loadingVerification } from '../../utils/loadingVerification';
+import { tryCatch } from '../../utils/tryCatch';
 
 const labelTextProps = {
   _text: { fontFamily: Poppins_500Medium, color: 'white' },
@@ -15,8 +25,38 @@ export function RegisterForm() {
   const {
     control,
     formState: { errors },
-  } = useForm();
+    handleSubmit,
+    setError,
+  } = useForm<UserRegister>({
+    resolver: zodResolver(UserRegisterSchema),
+  });
   const [isPasswordOn, setIsPasswordOn] = useState(true);
+  const [createUser] = useCreateUserMutation(setError);
+  const [login] = useLoginMutation(setError);
+  const { handleRedirect } = useSignIn();
+  const [isLoading, onOpenLoading, onCloseLoading] = useBooleanState();
+
+  const onRegister = async (formData: UserRegister) => {
+    onOpenLoading();
+    const [result, error] = await tryCatch(
+      createUser(formData.email, formData.password, formData.name)
+    );
+
+    if (!result || error) return setError('email', { message: DEFAULT_ERROR_MESSAGE });
+
+    const [loginResult, loginError] = await tryCatch(login(formData.email, formData.password));
+
+    if (loginError || !loginResult?.data) {
+      onCloseLoading();
+      return setError('email', { message: DEFAULT_ERROR_MESSAGE });
+    }
+
+    handleRedirect(loginResult.data.login);
+  };
+
+  const memoizedFuntion = useCallback(onCloseLoading, []);
+
+  useFocusEffect(memoizedFuntion);
 
   return (
     <MotiView
@@ -71,9 +111,11 @@ export function RegisterForm() {
         borderBottomRightRadius={50}
         bgColor="#084E4E"
         _text={{ fontFamily: Poppins_700Bold }}
-        // onPress={handleSubmit(onLogin)}
-      >
-        Register
+        onPress={handleSubmit(onRegister)}
+        _pressed={{
+          bgColor: 'cyan.800',
+        }}>
+        {loadingVerification(isLoading, 'Register')}
       </Button>
     </MotiView>
   );

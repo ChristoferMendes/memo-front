@@ -1,15 +1,19 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useFocusEffect } from 'expo-router';
 import { MotiView } from 'moti';
 import { Button, Icon } from 'native-base';
 import Form from 'native-base-formify';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { User, UserSchema } from '../../app/(login)/schema';
+import { User, UserSchema } from '../../app/(auth)/login/schema';
 import { Montserrat_500Medium, Poppins_500Medium, Poppins_700Bold } from '../../constants/Fonts';
-import { useLoginMutation } from '../../hooks/useLoginMutation';
+import { useSignIn } from '../../hooks/auth/useSignIn';
+import { useBooleanState } from '../../hooks/useBooleanState';
+import { loadingVerification } from '../../utils/loadingVerification';
 import { tryCatch } from '../../utils/tryCatch';
+import { useLoginMutation } from '../../hooks/auth/useLoginMutation';
 
 const labelTextProps = {
   _text: { fontFamily: Poppins_500Medium, color: 'white' },
@@ -26,16 +30,24 @@ export function LoginForm() {
   });
   const [isPasswordOn, setIsPasswordOn] = useState(true);
   const [login] = useLoginMutation(setError);
+  const [isLoading, onOpen, onClose] = useBooleanState();
+  const { handleRedirect } = useSignIn();
 
   const onLogin = async (data: User) => {
+    onOpen();
     const [result, error] = await tryCatch(login(data.email, data.password));
 
-    if (error || !result) {
+    if (error || !result?.data) {
+      onClose();
       return setError('email', { message: 'Oops, something wen wrong' });
     }
 
-    console.log(result.data?.login);
+    handleRedirect(result.data.login);
   };
+
+  const memoizedOnClose = useCallback(onClose, []);
+
+  useFocusEffect(memoizedOnClose);
 
   return (
     <MotiView
@@ -84,7 +96,7 @@ export function LoginForm() {
         _pressed={{
           backgroundColor: 'cyan.900',
         }}>
-        Login
+        {loadingVerification(isLoading, 'Login')}
       </Button>
     </MotiView>
   );
