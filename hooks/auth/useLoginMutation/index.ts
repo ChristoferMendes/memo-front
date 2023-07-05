@@ -1,8 +1,8 @@
 import { ApolloError, useMutation } from '@apollo/client';
+import { DEFAULT_ERROR_MESSAGE } from '@constants/DefaultErrorMessage';
 import { UseFormSetError } from 'react-hook-form';
 
 import { UserLoginResponse } from './types';
-import { DEFAULT_ERROR_MESSAGE } from '../../../constants/DefaultErrorMessage';
 import { LOGIN } from '../../../graphql/auth';
 
 export const useLoginMutation = <T>(setError: UseFormSetError<{ email: string }>) => {

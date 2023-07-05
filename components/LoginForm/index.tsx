@@ -1,3 +1,4 @@
+import { DEFAULT_ERROR_MESSAGE } from '@constants/DefaultErrorMessage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFocusEffect } from 'expo-router';
@@ -9,11 +10,11 @@ import { useForm } from 'react-hook-form';
 
 import { User, UserSchema } from '../../app/(auth)/login/schema';
 import { Montserrat_500Medium, Poppins_500Medium, Poppins_700Bold } from '../../constants/Fonts';
+import { useLoginMutation } from '../../hooks/auth/useLoginMutation';
 import { useSignIn } from '../../hooks/auth/useSignIn';
 import { useBooleanState } from '../../hooks/useBooleanState';
 import { loadingVerification } from '../../utils/loadingVerification';
 import { tryCatch } from '../../utils/tryCatch';
-import { useLoginMutation } from '../../hooks/auth/useLoginMutation';
 
 const labelTextProps = {
   _text: { fontFamily: Poppins_500Medium, color: 'white' },
@@ -39,7 +40,7 @@ export function LoginForm() {
 
     if (error || !result?.data) {
       onClose();
-      return setError('email', { message: 'Oops, something wen wrong' });
+      return setError('email', { message: DEFAULT_ERROR_MESSAGE });
     }
 
     handleRedirect(result.data.login);

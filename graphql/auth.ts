@@ -23,4 +23,11 @@ export const CREATE_USER = gql`
   }
 `;
 
-// export const ME = gql``;
+export const ME = gql`
+  query me {
+    me {
+      name
+      id
+    }
+  }
+`;

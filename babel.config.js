@@ -16,6 +16,21 @@ module.exports = function (api) {
           allowUndefined: true,
         },
       ],
+      [
+        'module-resolver',
+        {
+          alias: {
+            '@screens': './screens',
+            '@utils': './utils',
+            '@assets': './assets',
+            '@hooks': './hooks',
+            '@constants': './constants',
+            '@graphql': './graphql',
+            '@services': './services',
+            '@components': './components',
+          },
+        },
+      ],
     ],
   };
 };
