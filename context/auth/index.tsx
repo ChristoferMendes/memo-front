@@ -1,7 +1,5 @@
 import { User } from '@hooks/auth/useLoginMutation/types';
 import { useMe } from '@hooks/auth/useMe';
-import { usePromise } from '@hooks/usePromise';
-import { getTokenOnAsyncStorage } from '@services/asyncStorage';
 import { useRouter, useSegments } from 'expo-router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
