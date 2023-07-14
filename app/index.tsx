@@ -1,21 +1,24 @@
-import { Redirect } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useMe } from '@hooks/auth/useMe';
+import { useEffect } from 'react';
 
 import { useAuth } from '../context/auth';
-import { useLoginMutation } from '../hooks/auth/useSignIn/useLoginMutation';
 import { getTokenOnAsyncStorage } from '../services/asyncStorage';
 
 const Index = () => {
-  const { user } = useAuth();
+  const { user, signIn } = useAuth();
+  // const { } = useMe();
 
   useEffect(() => {
     (() => {
       const token = getTokenOnAsyncStorage();
 
-      if (!token) return;
-    })();
-  }, []);
+      if (!token || !user) return;
 
-  return <Redirect href="/login" />;
+      console.log(user);
+      signIn(user);
+    })();
+  }, [user]);
+
+  return <></>;
 };
 export default Index;

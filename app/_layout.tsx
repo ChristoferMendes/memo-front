@@ -12,15 +12,19 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
+import { useMe } from '@hooks/auth/useMe';
+import { usePromise } from '@hooks/usePromise';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Apollo } from '@services/apollo';
+import { getTokenOnAsyncStorage } from '@services/asyncStorage';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
-import { NativeBaseProvider, View } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
-import { AuthProvider } from '../context/auth';
-import { client } from '../services/apollo';
+import AuthProvider from '../context/auth';
+import { useToken } from '../store/token';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -57,19 +61,31 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const { data: token } = usePromise(getTokenOnAsyncStorage());
+  const { setToken } = useToken();
+
+  useEffect(() => {
+    if (!token) return;
+
+    setToken(token);
+  }, [token]);
+
+  const client = Apollo();
 
   return (
-    <AuthProvider>
-      <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
+      <AuthProvider>
         <NativeBaseProvider>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack>
               <Stack.Screen name="(auth)/login/index" options={{ headerShown: false }} />
               <Stack.Screen name="home/index" options={{ headerShown: false }} />
+              <Stack.Screen name="home/documents/index" options={{ headerShown: false }} />
+              <Stack.Screen name="home/cards/index" options={{ headerShown: false }} />
             </Stack>
           </ThemeProvider>
         </NativeBaseProvider>
-      </ApolloProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ApolloProvider>
   );
 }

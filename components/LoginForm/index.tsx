@@ -1,6 +1,7 @@
 import { DEFAULT_ERROR_MESSAGE } from '@constants/DefaultErrorMessage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { storeTokenOnAsyncStorage } from '@services/asyncStorage';
 import { useFocusEffect } from 'expo-router';
 import { MotiView } from 'moti';
 import { Button, Icon } from 'native-base';
@@ -10,8 +11,8 @@ import { useForm } from 'react-hook-form';
 
 import { User, UserSchema } from '../../app/(auth)/login/schema';
 import { Montserrat_500Medium, Poppins_500Medium, Poppins_700Bold } from '../../constants/Fonts';
+import { useAuth } from '../../context/auth';
 import { useLoginMutation } from '../../hooks/auth/useLoginMutation';
-import { useSignIn } from '../../hooks/auth/useSignIn';
 import { useBooleanState } from '../../hooks/useBooleanState';
 import { loadingVerification } from '../../utils/loadingVerification';
 import { tryCatch } from '../../utils/tryCatch';
@@ -32,7 +33,7 @@ export function LoginForm() {
   const [isPasswordOn, setIsPasswordOn] = useState(true);
   const [login] = useLoginMutation(setError);
   const [isLoading, onOpen, onClose] = useBooleanState();
-  const { handleRedirect } = useSignIn();
+  const { signIn } = useAuth();
 
   const onLogin = async (data: User) => {
     onOpen();
@@ -43,7 +44,8 @@ export function LoginForm() {
       return setError('email', { message: DEFAULT_ERROR_MESSAGE });
     }
 
-    handleRedirect(result.data.login);
+    storeTokenOnAsyncStorage(result.data.login.token);
+    signIn(result.data.login.user);
   };
 
   const memoizedOnClose = useCallback(onClose, []);

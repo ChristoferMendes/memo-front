@@ -1,8 +1,11 @@
+import { User } from '@hooks/auth/useLoginMutation/types';
+import { useMe } from '@hooks/auth/useMe';
+import { usePromise } from '@hooks/usePromise';
+import { getTokenOnAsyncStorage } from '@services/asyncStorage';
 import { useRouter, useSegments } from 'expo-router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 import { AuthProviderValues } from './types';
-import { User } from '../../hooks/auth/useSignIn/useLoginMutation/types';
 
 const AuthContext = createContext({} as AuthProviderValues);
 
@@ -25,13 +28,21 @@ function useProtectedRoute(user: any) {
   }, [user, segments]);
 }
 
-export function AuthProvider({ children }: { children: JSX.Element }) {
+export default function AuthProvider({ children }: { children: JSX.Element }) {
   const [user, setAuth] = useState<User | null>(null);
-  console.log(user);
+  const { data } = useMe();
+
+  useEffect(() => {
+    if (!data) return;
+
+    setAuth(data.me);
+  }, [data]);
 
   useProtectedRoute(user);
 
-  const signIn = (user: User) => setAuth(user);
+  const signIn = (user: User) => {
+    setAuth(user);
+  };
   const signOut = () => setAuth(null);
   const values = useMemo(() => ({ user, signIn, signOut }), [user]);
 
