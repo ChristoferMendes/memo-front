@@ -12,7 +12,6 @@ const Index = () => {
 
       if (!token || !user) return;
 
-      console.log(user);
       signIn(user);
     })();
   }, [user]);
