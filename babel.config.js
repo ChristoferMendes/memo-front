@@ -3,7 +3,7 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      require.resolve('expo-router/babel'),
+      'expo-router/babel',
       'react-native-reanimated/plugin',
       [
         'module:react-native-dotenv',
@@ -16,21 +16,21 @@ module.exports = function (api) {
           allowUndefined: true,
         },
       ],
-      [
-        'module-resolver',
-        {
-          alias: {
-            '@screens': './screens',
-            '@utils': './utils',
-            '@assets': './assets',
-            '@hooks': './hooks',
-            '@constants': './constants',
-            '@graphql': './graphql',
-            '@services': './services',
-            '@components': './components',
-          },
-        },
-      ],
+      // [
+      //   'module-resolver',
+      //   {
+      //     alias: {
+      //       '@screens': './screens',
+      //       '@utils': './utils',
+      //       '@assets': './assets',
+      //       '@hooks': './hooks',
+      //       '@constants': './constants',
+      //       '@graphql': './graphql',
+      //       '@services': './services',
+      //       '@components': './components',
+      //     },
+      //   },
+      // ],
     ],
   };
 };

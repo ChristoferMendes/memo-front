@@ -2,17 +2,17 @@ import { BackButton } from '@components/BackButton';
 import { BoxForBottomIcon } from '@components/BoxForBottomIcon';
 import { Card } from '@components/Card';
 import { MainBackground } from '@components/MainBackground';
-import { useRouter } from 'expo-router';
+import { Href, useRouter } from 'expo-router';
 import { VStack, View } from 'native-base';
 
 const cards = [
   {
-    href: '/',
+    href: '/' as const,
     label: 'Your ID',
     uri: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/New_Estonian_ID_card_%282021%29%28front%29.jpg',
   },
   {
-    href: '/',
+    href: '/' as const,
     label: 'Your Passport',
     uri: 'https://www.teclasap.com.br/wp-content/uploads/2020/03/passport.jpg',
   },
@@ -21,7 +21,7 @@ const cards = [
 export default function Documents() {
   const router = useRouter();
 
-  const onCardPress = (href: string) => {
+  const onCardPress = (href: Href<''>) => {
     router.push(href);
   };
 

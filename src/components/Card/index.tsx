@@ -1,11 +1,12 @@
-import { Poppins_600SemiBold } from '@constants/Fonts';
-import { Button, Image, Text, VStack } from 'native-base';
+import { Href } from 'expo-router';
+import { Image, Text, VStack } from 'native-base';
+import { Poppins_600SemiBold } from 'src/constants/Fonts';
 
 interface CardProps {
   label: string;
   uri: string;
-  href: string;
-  onPress: (href: string) => void;
+  href: Href<''>;
+  onPress: (href: Href<''>) => void;
 }
 
 export function Card({ label, uri, href, onPress }: CardProps) {

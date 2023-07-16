@@ -1,8 +1,8 @@
-import { BoxForBottomIcon } from '@components/BoxForBottomIcon';
-import { Poppins_600SemiBold } from '@constants/Fonts';
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { IconButton, Text } from 'native-base';
+import { BoxForBottomIcon } from 'src/components/BoxForBottomIcon';
+import { Poppins_600SemiBold } from 'src/constants/Fonts';
 
 export const SettingsIconButton = () => {
   const router = useRouter();

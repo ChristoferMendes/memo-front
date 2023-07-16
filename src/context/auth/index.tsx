@@ -1,7 +1,7 @@
-import { User } from '@hooks/auth/useLoginMutation/types';
-import { useMe } from '@hooks/auth/useMe';
 import { useRouter, useSegments } from 'expo-router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { User } from 'src/hooks/auth/useLoginMutation/types';
+import { useMe } from 'src/hooks/auth/useMe';
 
 import { AuthProviderValues } from './types';
 
