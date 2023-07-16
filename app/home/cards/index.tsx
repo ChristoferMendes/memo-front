@@ -1,9 +1,15 @@
-import { Text, View } from 'native-base';
+import { BackButton } from '@components/BackButton';
+import { BoxForBottomIcon } from '@components/BoxForBottomIcon';
+import { MainBackground } from '@components/MainBackground';
+import { View } from 'native-base';
 
 export default function Cards() {
   return (
-    <View>
-      <Text>Cards</Text>
+    <View flex={1} bg="primary-background">
+      <MainBackground link="https://www.japanhousela.com/sites/japanhouse.com.losangeles/files/2023-02/Nikko-Hannya-and-Hoto-Waterfalls-by-Yoshu-Chikanobu.jpg" />
+      <BoxForBottomIcon>
+        <BackButton />
+      </BoxForBottomIcon>
     </View>
   );
 }

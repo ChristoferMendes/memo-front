@@ -19,7 +19,7 @@ import { Apollo } from '@services/apollo';
 import { getTokenOnAsyncStorage } from '@services/asyncStorage';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider, extendTheme } from 'native-base';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
@@ -63,6 +63,12 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const { data: token } = usePromise(getTokenOnAsyncStorage());
   const { setToken } = useToken();
+  const theme = extendTheme({
+    colors: {
+      'primary-background': '#1C1C1C',
+      'primary-green': '#084E4E',
+    },
+  });
 
   useEffect(() => {
     if (!token) return;
@@ -75,13 +81,14 @@ function RootLayoutNav() {
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <NativeBaseProvider>
+        <NativeBaseProvider theme={theme}>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack>
               <Stack.Screen name="(auth)/login/index" options={{ headerShown: false }} />
               <Stack.Screen name="home/index" options={{ headerShown: false }} />
               <Stack.Screen name="home/documents/index" options={{ headerShown: false }} />
               <Stack.Screen name="home/cards/index" options={{ headerShown: false }} />
+              <Stack.Screen name="home/settings/index" options={{ headerShown: false }} />
             </Stack>
           </ThemeProvider>
         </NativeBaseProvider>

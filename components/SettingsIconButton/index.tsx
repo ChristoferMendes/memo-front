@@ -1,22 +1,23 @@
+import { BoxForBottomIcon } from '@components/BoxForBottomIcon';
 import { Poppins_600SemiBold } from '@constants/Fonts';
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Box, IconButton, Text } from 'native-base';
+import { IconButton, Text } from 'native-base';
 
 export const SettingsIconButton = () => {
   const router = useRouter();
 
   return (
-    <Box display="flex" alignItems="center" position="absolute" bottom="12" width="full">
+    <BoxForBottomIcon>
       <IconButton
         icon={<AntDesign name="setting" color="white" size={48} />}
         onPress={() => {
-          router.push('/settings');
+          router.push('/home/settings');
         }}
       />
       <Text color="white" fontSize="md" fontFamily={Poppins_600SemiBold}>
         SETTINGS
       </Text>
-    </Box>
+    </BoxForBottomIcon>
   );
 };
