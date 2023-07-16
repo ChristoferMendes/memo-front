@@ -12,16 +12,16 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
-import { useMe } from '@hooks/auth/useMe';
-import { usePromise } from '@hooks/usePromise';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Apollo } from '@services/apollo';
-import { getTokenOnAsyncStorage } from '@services/asyncStorage';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { Slot, SplashScreen, Stack } from 'expo-router';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import { useMe } from 'src/hooks/auth/useMe';
+import { usePromise } from 'src/hooks/usePromise';
+import { Apollo } from 'src/services/apollo';
+import { getTokenOnAsyncStorage } from 'src/services/asyncStorage';
 
 import AuthProvider from '../context/auth';
 import { useToken } from '../store/token';
@@ -33,7 +33,7 @@ export {
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
     Poppins_500Medium,
     Poppins_400Regular,
@@ -53,7 +53,7 @@ export default function RootLayout() {
   return (
     <>
       {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-      {!loaded && <SplashScreen />}
+      {!loaded && <Slot />}
       {loaded && <RootLayoutNav />}
     </>
   );

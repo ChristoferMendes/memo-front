@@ -1,13 +1,13 @@
-import { DEFAULT_ERROR_MESSAGE } from '@constants/DefaultErrorMessage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { storeTokenOnAsyncStorage } from '@services/asyncStorage';
 import { useFocusEffect } from 'expo-router';
 import { MotiView } from 'moti';
 import { Button, Icon } from 'native-base';
 import Form from 'native-base-formify';
 import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { DEFAULT_ERROR_MESSAGE } from 'src/constants/DefaultErrorMessage';
+import { storeTokenOnAsyncStorage } from 'src/services/asyncStorage';
 
 import { User, UserSchema } from '../../app/(auth)/login/schema';
 import { Montserrat_500Medium, Poppins_500Medium, Poppins_700Bold } from '../../constants/Fonts';

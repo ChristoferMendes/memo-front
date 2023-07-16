@@ -1,6 +1,6 @@
-import { Poppins_600SemiBold } from '@constants/Fonts';
 import { Link } from 'expo-router';
 import { Box, Text, VStack } from 'native-base';
+import { Poppins_600SemiBold } from 'src/constants/Fonts';
 
 export function HomeCard({
   title,

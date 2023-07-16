@@ -1,6 +1,6 @@
 import { ApolloError, useMutation } from '@apollo/client';
-import { DEFAULT_ERROR_MESSAGE } from '@constants/DefaultErrorMessage';
 import { UseFormSetError } from 'react-hook-form';
+import { DEFAULT_ERROR_MESSAGE } from 'src/constants/DefaultErrorMessage';
 
 import { UserLoginResponse } from './types';
 import { LOGIN } from '../../../graphql/auth';

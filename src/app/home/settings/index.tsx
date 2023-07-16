@@ -1,10 +1,10 @@
-import { BackButton } from '@components/BackButton';
-import { BoxForBottomIcon } from '@components/BoxForBottomIcon';
-import { MainBackground } from '@components/MainBackground';
-import { Poppins_700Bold } from '@constants/Fonts';
 import { AntDesign } from '@expo/vector-icons';
-import { useBooleanState } from '@hooks/useBooleanState';
 import { Box, Button, HStack, Image, Text, Tooltip, VStack, View } from 'native-base';
+import { BackButton } from 'src/components/BackButton';
+import { BoxForBottomIcon } from 'src/components/BoxForBottomIcon';
+import { MainBackground } from 'src/components/MainBackground';
+import { Poppins_700Bold } from 'src/constants/Fonts';
+import { useBooleanState } from 'src/hooks/useBooleanState';
 
 import { useAuth } from '../../../context/auth';
 

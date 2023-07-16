@@ -1,4 +1,4 @@
-import { User } from '../../hooks/auth/useSignIn/useLoginMutation/types';
+import { User } from '../../src/hooks/auth/useSignIn/useLoginMutation/types';
 
 export interface AuthProviderValues {
   user: User | null;

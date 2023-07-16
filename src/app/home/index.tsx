@@ -1,7 +1,7 @@
-import { SettingsIconButton } from '@components/SettingsIconButton';
 import { AntDesign } from '@expo/vector-icons';
 import { HStack, View } from 'native-base';
 import React from 'react';
+import { SettingsIconButton } from 'src/components/SettingsIconButton';
 
 import { HomeCard } from '../../components/HomeCard';
 import { MainBackground } from '../../components/MainBackground';
