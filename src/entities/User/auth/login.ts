@@ -13,4 +13,4 @@ export const UserSchema = z.object({
     .min(4, { message: 'Your password must have at least 4 characters' }),
 });
 
-export type User = z.infer<typeof UserSchema>;
+export type UserLoginType = z.infer<typeof UserSchema>;

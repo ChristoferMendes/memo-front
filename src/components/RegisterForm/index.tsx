@@ -1,21 +1,21 @@
+import { DEFAULT_ERROR_MESSAGE } from '@constants/DefaultErrorMessage';
+import { Montserrat_500Medium, Poppins_500Medium, Poppins_700Bold } from '@constants/Fonts';
+import { UserRegisterSchema, UserRegisterType } from '@entities/User/auth/register';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useLoginMutation } from '@hooks/auth/useLoginMutation';
+import { useBooleanState } from '@hooks/useBooleanState';
+import { useCreateUserMutation } from '@hooks/useCreateUserMutation';
+import { storeTokenOnAsyncStorage } from '@services/asyncStorage';
 import { useFocusEffect } from 'expo-router';
 import { MotiView } from 'moti';
 import { Button, Icon } from 'native-base';
 import Form from 'native-base-formify';
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-import { UserRegister, UserRegisterSchema } from './schema';
-import { DEFAULT_ERROR_MESSAGE } from '../../constants/DefaultErrorMessage';
-import { Montserrat_500Medium, Poppins_500Medium, Poppins_700Bold } from '../../constants/Fonts';
-import { useLoginMutation } from '../../hooks/auth/useLoginMutation';
-import { useSignIn } from '../../hooks/auth/useSignIn';
-import { useBooleanState } from '../../hooks/useBooleanState';
-import { useCreateUserMutation } from '../../hooks/useCreateUserMutation';
-import { loadingVerification } from '../../utils/loadingVerification';
-import { tryCatch } from '../../utils/tryCatch';
+import { tryCatchPromise } from 'safe-catch';
+import { useAuth } from 'src/context/auth';
+import { loadingVerification } from 'src/utils/loadingVerification';
 
 const labelTextProps = {
   _text: { fontFamily: Poppins_500Medium, color: 'white' },
@@ -27,36 +27,39 @@ export function RegisterForm() {
     formState: { errors },
     handleSubmit,
     setError,
-  } = useForm<UserRegister>({
+  } = useForm<UserRegisterType>({
     resolver: zodResolver(UserRegisterSchema),
   });
   const [isPasswordOn, setIsPasswordOn] = useState(true);
   const [createUser] = useCreateUserMutation(setError);
   const [login] = useLoginMutation(setError);
-  const { handleRedirect } = useSignIn();
   const [isLoading, onOpenLoading, onCloseLoading] = useBooleanState();
+  const { signIn } = useAuth();
 
-  const onRegister = async (formData: UserRegister) => {
+  const onRegister = async (formData: UserRegisterType) => {
     onOpenLoading();
-    const [result, error] = await tryCatch(
+    const [registerResult, error] = await tryCatchPromise(
       createUser(formData.email, formData.password, formData.name)
     );
 
-    if (!result || error) return setError('email', { message: DEFAULT_ERROR_MESSAGE });
+    if (!registerResult || error) return setError('email', { message: DEFAULT_ERROR_MESSAGE });
 
-    const [loginResult, loginError] = await tryCatch(login(formData.email, formData.password));
+    const [loginResult, loginError] = await tryCatchPromise(
+      login(formData.email, formData.password)
+    );
 
     if (loginError || !loginResult?.data) {
       onCloseLoading();
       return setError('email', { message: DEFAULT_ERROR_MESSAGE });
     }
 
-    handleRedirect(loginResult.data.login);
+    storeTokenOnAsyncStorage(loginResult.data?.login.token);
+    signIn(loginResult.data.login.user);
   };
 
-  const memoizedFuntion = useCallback(onCloseLoading, []);
+  const memoizedFunction = useCallback(onCloseLoading, []);
 
-  useFocusEffect(memoizedFuntion);
+  useFocusEffect(memoizedFunction);
 
   return (
     <MotiView

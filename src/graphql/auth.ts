@@ -23,11 +23,12 @@ export const CREATE_USER = gql`
   }
 `;
 
-export const ME = gql`
-  query me {
+export const WHO_AM_I = gql`
+  query whoami {
     me {
-      name
       id
+      name
+      email
     }
   }
 `;

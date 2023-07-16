@@ -1,3 +1,4 @@
+import { UserLoginType, UserSchema } from '@entities/User/auth/login';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFocusEffect } from 'expo-router';
@@ -9,7 +10,6 @@ import { useForm } from 'react-hook-form';
 import { DEFAULT_ERROR_MESSAGE } from 'src/constants/DefaultErrorMessage';
 import { storeTokenOnAsyncStorage } from 'src/services/asyncStorage';
 
-import { User, UserSchema } from '../../app/(auth)/login/schema';
 import { Montserrat_500Medium, Poppins_500Medium, Poppins_700Bold } from '../../constants/Fonts';
 import { useAuth } from '../../context/auth';
 import { useLoginMutation } from '../../hooks/auth/useLoginMutation';
@@ -27,7 +27,7 @@ export function LoginForm() {
     formState: { errors },
     setError,
     handleSubmit,
-  } = useForm<User>({
+  } = useForm<UserLoginType>({
     resolver: zodResolver(UserSchema),
   });
   const [isPasswordOn, setIsPasswordOn] = useState(true);
@@ -35,7 +35,7 @@ export function LoginForm() {
   const [isLoading, onOpen, onClose] = useBooleanState();
   const { signIn } = useAuth();
 
-  const onLogin = async (data: User) => {
+  const onLogin = async (data: UserLoginType) => {
     onOpen();
     const [result, error] = await tryCatch(login(data.email, data.password));
 

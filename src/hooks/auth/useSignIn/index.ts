@@ -1,13 +1,13 @@
-import { SignInData } from './types';
-import { useAuth } from '../../../context/auth';
-import { storeTokenOnAsyncStorage } from '../../../services/asyncStorage';
+import { useAuth } from '@context/auth';
+import { User } from '@entities/User/user.base.types';
+import { storeTokenOnAsyncStorage } from '@services/asyncStorage';
 
 export const useSignIn = () => {
   const { signIn } = useAuth();
 
-  const handleRedirect = (data: SignInData) => {
-    storeTokenOnAsyncStorage(data.token);
-    signIn(data.user);
+  const handleRedirect = (token: string, user: User) => {
+    storeTokenOnAsyncStorage(token);
+    signIn(user);
   };
 
   return { handleRedirect };

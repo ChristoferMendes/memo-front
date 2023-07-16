@@ -2,12 +2,11 @@ import { LoginDivider } from '@components/LoginDivider';
 import { LoginForm } from '@components/LoginForm';
 import { MainBackground } from '@components/MainBackground';
 import { RegisterForm } from '@components/RegisterForm';
+import { Poppins_600SemiBold, Poppins_700Bold } from '@constants/Fonts';
 import { Octicons } from '@expo/vector-icons';
 import { AnimatePresence } from 'moti';
 import { Button, HStack, ScrollView, Text, VStack, View } from 'native-base';
 import { useState } from 'react';
-
-import { Poppins_600SemiBold, Poppins_700Bold } from '../../../constants/Fonts';
 
 export default function Login() {
   const [isRegister, setIsRegister] = useState(false);

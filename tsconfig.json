@@ -7,13 +7,15 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@constants/*": ["src/constants/*"],
+      "@context/*": ["src/context/*"],
       "@hooks/*": ["src/hooks/*"],
       "@navigation/*": ["src/navigation/*"],
       "@screens/*": [".src/screens/*"],
       "@services/*": ["src/services/*"],
       "@types/*": ["src/types/*"],
       "@utils/*": [".src/utils/*"],
-      "@graphql/*": ["src/graphql/*"]
+      "@graphql/*": ["src/graphql/*"],
+      "@entities/*": ["src/entities/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
