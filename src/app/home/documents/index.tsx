@@ -2,8 +2,10 @@ import { BackButton } from '@components/BackButton';
 import { BoxForBottomIcon } from '@components/BoxForBottomIcon';
 import { Card } from '@components/Card';
 import { MainBackground } from '@components/MainBackground';
-import { useRouter } from 'expo-router';
-import { VStack, View } from 'native-base';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import { HStack, Image, Modal, VStack, View, useToast } from 'native-base';
+import { useState } from 'react';
 
 const cards = [
   {
@@ -17,10 +19,31 @@ const cards = [
 ];
 
 export default function Documents() {
-  const router = useRouter();
+  const [currentDocumentOnFullScreen, setCurrentDocumentOnFUllScreen] = useState<string | null>(
+    null
+  );
+  const toast = useToast();
 
-  const onCardPress = () => {
-    // router.push();
+  const onCardPress = async (link: string) => {
+    const uri = await getUriToBeShared(link);
+
+    const canBeUsed = await Sharing.isAvailableAsync();
+
+    if (!canBeUsed) return toast.show({ title: 'Cannot share this file' });
+
+    await Sharing.shareAsync(uri);
+  };
+
+  async function getUriToBeShared(link: string) {
+    const fileUri = FileSystem.documentDirectory + 'sharing.png';
+
+    const { uri } = await FileSystem.downloadAsync(link, fileUri);
+
+    return uri;
+  }
+
+  const onFullScreenDocumentPress = (uri: string) => {
+    setCurrentDocumentOnFUllScreen(uri);
   };
 
   return (
@@ -28,12 +51,30 @@ export default function Documents() {
       <MainBackground link="https://i.etsystatic.com/34570961/r/il/5db996/4530915483/il_1080xN.4530915483_rbep.jpg" />
       <VStack space="8" mt="8">
         {cards.map((card) => (
-          <Card key={card.label} {...card} onPress={onCardPress}>
-            <Card.IconButton iconName="arrow-expand" />
-            <Card.IconButton iconName="share-variant" />
+          <Card key={card.label} {...card} onPress={() => {}}>
+            <Card.IconButton
+              iconName="arrow-expand"
+              _icon={{ onPress: () => onFullScreenDocumentPress(card.uri) }}
+            />
+            <Card.IconButton
+              iconName="share-variant"
+              _icon={{ onPress: () => onCardPress(card.uri) }}
+            />
           </Card>
         ))}
       </VStack>
+      {currentDocumentOnFullScreen && (
+        <Modal isOpen onClose={() => setCurrentDocumentOnFUllScreen(null)}>
+          <HStack position="absolute" w="full" h="full" alignItems="center" justifyContent="center">
+            <Image
+              source={{ uri: currentDocumentOnFullScreen }}
+              alt="a"
+              size={96}
+              resizeMode="contain"
+            />
+          </HStack>
+        </Modal>
+      )}
       <BoxForBottomIcon>
         <BackButton />
       </BoxForBottomIcon>

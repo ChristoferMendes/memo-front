@@ -1,5 +1,5 @@
 import { AntDesign } from '@expo/vector-icons';
-import { Box, Button, HStack, Image, Text, Tooltip, VStack, View } from 'native-base';
+import { Button, HStack, Image, Text, Tooltip, VStack, View } from 'native-base';
 import { BackButton } from 'src/components/BackButton';
 import { BoxForBottomIcon } from 'src/components/BoxForBottomIcon';
 import { MainBackground } from 'src/components/MainBackground';
@@ -10,11 +10,17 @@ import { useAuth } from '../../../context/auth';
 
 export default function Settings() {
   const { user, signOut } = useAuth();
-  const [isQuestion, onOpenIsQuestion] = useBooleanState();
+  const [isQuestion, onOpenIsQuestion, onCloseIsQuestion] = useBooleanState();
   const [isCurrentThemeOpen, onOpenCurrentTheme, onCloseCurrentTheme] = useBooleanState();
 
   const onLogoutPress = () => {
-    if (!isQuestion) return onOpenIsQuestion();
+    if (!isQuestion) {
+      const ONE_SECOND = 1000;
+
+      setTimeout(onCloseIsQuestion, ONE_SECOND);
+
+      return onOpenIsQuestion();
+    }
 
     signOut();
   };

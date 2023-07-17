@@ -14,13 +14,13 @@ import { Poppins_600SemiBold } from 'src/constants/Fonts';
 interface CardProps {
   label: string;
   uri: string;
-  onPress: () => void;
+  onPress: (uri: string) => void;
   children: React.ReactNode;
 }
 
 function Main({ label, uri, onPress, children }: CardProps) {
   return (
-    <VStack mx="10" space="2" onTouchStart={() => onPress()}>
+    <VStack mx="10" space="2" onTouchStart={() => onPress(uri)}>
       <Text color="white" textAlign="center" fontSize="md" fontFamily={Poppins_600SemiBold}>
         {label.toUpperCase()}
       </Text>

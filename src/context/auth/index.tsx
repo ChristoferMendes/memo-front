@@ -1,6 +1,6 @@
+import { User } from '@entities/User/user.base.types';
 import { useRouter, useSegments } from 'expo-router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { User } from 'src/hooks/auth/useLoginMutation/types';
 import { useMe } from 'src/hooks/auth/useMe';
 
 import { AuthProviderValues } from './types';
@@ -11,7 +11,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-function useProtectedRoute(user: any) {
+function useProtectedRoute(user: User | null) {
   const segments = useSegments();
   const router = useRouter();
 
