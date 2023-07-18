@@ -29,9 +29,13 @@ export default function Documents() {
       <FlashList
         estimatedItemSize={96}
         data={documents?.documentsByUser}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 100, paddingTop: 20 }}
         renderItem={({ item: document }) => (
-          <Card key={document.id} label="" uri={document.image_url} onPress={() => {}}>
+          <Card
+            key={document.id}
+            label={`Your ${document.type}`}
+            uri={document.image_url}
+            onPress={() => {}}>
             <Card.IconButton
               iconName="arrow-expand"
               _icon={{ onPress: () => setCurrentDocumentOnFullScreen(document.image_url) }}

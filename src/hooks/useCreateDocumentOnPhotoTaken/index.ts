@@ -1,10 +1,10 @@
 import { useCreateDocument } from '@hooks/useCreateDocument';
 import { useDocumentCameraIsOpen } from '@store/useDocumentCameraIsOpen';
-import { useDocumentPhotoTaken } from '@store/useDocumentPhotoTaken';
+import { useDocumentPhotoConfirmed } from '@store/useDocumentPhotoTaken';
 import { useEffect } from 'react';
 
 export function useCreateDocumentOnPhotoTaken() {
-  const { photo, cleanPhoto } = useDocumentPhotoTaken();
+  const { photo, cleanPhoto } = useDocumentPhotoConfirmed();
   const { executeCreateDocumentMutation } = useCreateDocument();
   const { setDocumentCameraIsOpen } = useDocumentCameraIsOpen();
 

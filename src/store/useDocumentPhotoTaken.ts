@@ -19,7 +19,7 @@ interface PhotoTakenStore {
   }) => void;
 }
 
-export const useDocumentPhotoTaken = create<PhotoTakenStore>((set) => ({
+export const useDocumentPhotoConfirmed = create<PhotoTakenStore>((set) => ({
   photo: {
     title: '',
     type: DocumentTypeEnum.Id,

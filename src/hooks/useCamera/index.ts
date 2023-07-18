@@ -21,5 +21,5 @@ export function useCamera() {
     return setPhotoTaken(null);
   }
 
-  return { takePicture, setCamera, photoTaken, purgePhotoTaken };
+  return { takePicture, setCamera, photoTaken, purgePhotoTaken, setPhotoTaken };
 }
