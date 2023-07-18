@@ -1,30 +1,24 @@
 import { CameraFullScreen } from '@components/CameraFullScreen';
 import { useCamera } from '@hooks/useCamera';
-import { CameraCapturedPicture } from 'expo-camera';
-import { useEffect } from 'react';
 import { useDocumentCameraIsOpen } from 'src/store/useDocumentCameraIsOpen';
 
-interface DocumentCameraProps {
-  onPhotoTaken: (photo: CameraCapturedPicture) => void;
-}
-
-export function DocumentCamera({ onPhotoTaken }: DocumentCameraProps) {
+export function DocumentCamera() {
   const { documentCameraIsOpen, setDocumentCameraIsOpen } = useDocumentCameraIsOpen();
-  const { setCamera, takePicture, photoTaken } = useCamera();
+  const { setCamera, takePicture, photoTaken, purgePhotoTaken } = useCamera();
 
-  useEffect(() => {
-    if (!photoTaken) return;
-
-    onPhotoTaken(photoTaken);
-  }, [photoTaken]);
+  function onCloseButton() {
+    purgePhotoTaken();
+    setDocumentCameraIsOpen(false);
+  }
 
   return (
     <>
       {documentCameraIsOpen && (
         <>
           <CameraFullScreen setRef={setCamera}>
-            <CameraFullScreen.CloseButton onPress={() => setDocumentCameraIsOpen(false)} />
+            <CameraFullScreen.CloseButton onPress={onCloseButton} />
             <CameraFullScreen.TakePictureButton onPress={takePicture} />
+            {photoTaken?.base64 && <CameraFullScreen.Preview base64={photoTaken.base64} />}
           </CameraFullScreen>
         </>
       )}

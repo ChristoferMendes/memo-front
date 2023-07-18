@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { useAuth } from '@context/auth';
-import { CREATE_DOCUMENT } from '@graphql/documents';
+import { DocumentTypeEnum } from '@generated/graphql';
+import { CREATE_DOCUMENT, DOCUMENTS_BY_USER } from '@graphql/documents';
 
 export function useCreateDocument() {
   const { user } = useAuth();
@@ -9,9 +10,11 @@ export function useCreateDocument() {
   function executeCreateDocumentMutation({
     image_url,
     title,
+    type,
   }: {
     image_url: string;
     title: string;
+    type: DocumentTypeEnum;
   }) {
     if (!user) return;
 
@@ -20,7 +23,9 @@ export function useCreateDocument() {
         image_url,
         title,
         user_id: user.id,
+        type,
       },
+      refetchQueries: [DOCUMENTS_BY_USER],
     });
   }
 

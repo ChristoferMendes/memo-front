@@ -25,7 +25,13 @@ function Main({ label, uri, onPress, children }: CardProps) {
         {label.toUpperCase()}
       </Text>
       <Pressable onPress={() => onPress(uri)}>
-        <Image source={{ uri }} alt={label} w="full" h="24" borderBottomRightRadius={75} />
+        <Image
+          source={{ uri: `data:image/png;base64,${uri}` }}
+          alt={label}
+          w="full"
+          h="24"
+          borderBottomRightRadius={75}
+        />
       </Pressable>
       <View position="absolute" top="9" right="4">
         <HStack space="2">{children}</HStack>

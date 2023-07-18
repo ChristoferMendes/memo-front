@@ -1,7 +1,10 @@
-import { AntDesign } from '@expo/vector-icons';
+import { ImageBase64 } from '@components/ImageBase64';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { DocumentTypeEnum } from '@generated/graphql';
+import { useDocumentPhotoTaken } from '@store/useDocumentPhotoTaken';
 import { Camera, CameraProps } from 'expo-camera';
-import { Button, HStack, IconButton } from 'native-base';
-import React from 'react';
+import { Button, HStack, IconButton, Select, VStack } from 'native-base';
+import React, { useState } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 
 export interface CameraFullScreenProps extends CameraProps {
@@ -20,7 +23,7 @@ function Main(props: CameraFullScreenProps) {
 
 function CloseButton({ onPress }: { onPress: () => void }) {
   return (
-    <HStack safeArea justifyContent="flex-end" mr="6" mt="5">
+    <HStack safeArea justifyContent="flex-end" mr="6" mt="5" zIndex={10}>
       <IconButton
         onPress={onPress}
         bg="white"
@@ -42,6 +45,44 @@ function TakePictureButton({ onPress }: { onPress: () => void }) {
         onPress={onPress}
       />
     </HStack>
+  );
+}
+
+function Preview({ base64 }: { base64: string }) {
+  const documentTypes = Object.values(DocumentTypeEnum);
+  const [selectedValue, setSelectedValue] = useState(DocumentTypeEnum.Id);
+  const { storePhoto } = useDocumentPhotoTaken();
+
+  return (
+    <VStack position="absolute" w="full" h="full">
+      <ImageBase64 base64={base64} alt="Image preview" w="full" h="full" />
+      <VStack
+        position="absolute"
+        bottom={12}
+        space="5"
+        alignItems="flex-end"
+        w="full"
+        justifyContent="center">
+        <Select
+          defaultValue={DocumentTypeEnum.Id}
+          onValueChange={(value) => setSelectedValue(value as DocumentTypeEnum)}
+          minWidth="full"
+          accessibilityLabel="Choose document type"
+          bg="white"
+          placeholder="Choose document type">
+          {documentTypes.map((documentType) => (
+            <Select.Item key={documentType} value={documentType} label={documentType} />
+          ))}
+        </Select>
+        <IconButton
+          mr="6"
+          rounded="full"
+          onPress={() => storePhoto({ title: '', type: selectedValue, url: base64 })}
+          bg="white"
+          icon={<FontAwesome name="send-o" size={32} />}
+        />
+      </VStack>
+    </VStack>
   );
 }
 
@@ -77,4 +118,4 @@ function useFullScreenCameraStyle(ratio = 3 / 4) {
   return { cameraStyle, contentStyle };
 }
 
-export const CameraFullScreen = Object.assign(Main, { CloseButton, TakePictureButton });
+export const CameraFullScreen = Object.assign(Main, { CloseButton, TakePictureButton, Preview });

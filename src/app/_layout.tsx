@@ -14,11 +14,10 @@ import {
 } from '@expo-google-fonts/poppins';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Slot, SplashScreen, Stack } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import { useMe } from 'src/hooks/auth/useMe';
 import { usePromise } from 'src/hooks/usePromise';
 import { Apollo } from 'src/services/apollo';
 import { getTokenOnAsyncStorage } from 'src/services/asyncStorage';
