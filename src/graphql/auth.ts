@@ -1,42 +1,34 @@
-import { gql } from '@apollo/client';
+import { gql } from 'src/__generated__';
 
-export const CORE_USER_FIELDS = gql`
-  fragment CoreUserFields on User {
-    id
-    name
-    email
-  }
-`;
-
-export const LOGIN = gql`
-  ${CORE_USER_FIELDS}
-
+export const LOGIN = gql(`
   mutation login($email: String!, $password: String!) {
     login(input: { email: $email, password: $password }) {
       user {
-        ...CoreUserFields
+        id
+        name
+        email
       }
       token
     }
   }
-`;
+`);
 
-export const CREATE_USER = gql`
-  ${CORE_USER_FIELDS}
-
+export const CREATE_USER = gql(`
   mutation createUser($email: String!, $password: String!, $name: String!) {
     createUser(createUserInput: { email: $email, password: $password, name: $name }) {
-      ...CoreUserFields
+      id
+      name
+      email
     }
   }
-`;
+`);
 
-export const WHO_AM_I = gql`
-  ${CORE_USER_FIELDS}
-
+export const WHO_AM_I = gql(`
   query whoami {
     me {
-      ...CoreUserFields
+      id
+      name
+      email
     }
   }
-`;
+`);

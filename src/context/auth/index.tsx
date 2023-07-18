@@ -27,21 +27,21 @@ function useProtectedRoute(user: User | null) {
 }
 
 export default function AuthProvider({ children }: { children: JSX.Element }) {
-  const [user, setAuth] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const { data } = useMe();
 
   useEffect(() => {
     if (!data) return;
 
-    setAuth(data.me);
+    setUser(data.me);
   }, [data]);
 
   useProtectedRoute(user);
 
   const signIn = (user: User) => {
-    setAuth(user);
+    setUser(user);
   };
-  const signOut = () => setAuth(null);
+  const signOut = () => setUser(null);
   const values = useMemo(() => ({ user, signIn, signOut }), [user]);
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

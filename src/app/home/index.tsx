@@ -1,10 +1,9 @@
+import { HomeCard } from '@components/HomeCard';
+import { MainBackground } from '@components/MainBackground';
 import { AntDesign } from '@expo/vector-icons';
 import { HStack, View } from 'native-base';
 import React from 'react';
 import { SettingsIconButton } from 'src/components/SettingsIconButton';
-
-import { HomeCard } from '../../components/HomeCard';
-import { MainBackground } from '../../components/MainBackground';
 
 const cards = [
   { title: 'Documents', href: '/home/documents', icon: 'idcard' as const },

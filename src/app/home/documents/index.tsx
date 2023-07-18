@@ -1,80 +1,62 @@
 import { BackButton } from '@components/BackButton';
 import { BoxForBottomIcon } from '@components/BoxForBottomIcon';
 import { Card } from '@components/Card';
+import { DocumentCamera } from '@components/DocumentCamera';
+import { DocumentImageExpanded } from '@components/DocumentImageExpanded';
 import { MainBackground } from '@components/MainBackground';
-import * as FileSystem from 'expo-file-system';
-import * as Sharing from 'expo-sharing';
-import { HStack, Image, Modal, VStack, View, useToast } from 'native-base';
-import { useState } from 'react';
-
-const cards = [
-  {
-    label: 'Your ID',
-    uri: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/New_Estonian_ID_card_%282021%29%28front%29.jpg',
-  },
-  {
-    label: 'Your Passport',
-    uri: 'https://www.teclasap.com.br/wp-content/uploads/2020/03/passport.jpg',
-  },
-];
+import { useCreateDocument } from '@hooks/useCreateDocument';
+import { useShareLink } from '@hooks/useShareLink';
+import { useCurrentDocumentOnFullScreen } from '@store/useCurrentDocumentOnFullScreen';
+import { useDocuments } from '@store/useDocument';
+import { useDocumentCameraIsOpen } from '@store/useDocumentCameraIsOpen';
+import { CameraCapturedPicture } from 'expo-camera';
+import { VStack, View } from 'native-base';
 
 export default function Documents() {
-  const [currentDocumentOnFullScreen, setCurrentDocumentOnFUllScreen] = useState<string | null>(
-    null
-  );
-  const toast = useToast();
+  const { setCurrentDocumentOnFullScreen } = useCurrentDocumentOnFullScreen();
+  const { setDocumentCameraIsOpen } = useDocumentCameraIsOpen();
+  const {
+    documents,
+    setCurrentDocumentIdToBeReplaced,
+    updateDocumentUriById,
+    currentDocumentIdToBeReplaced,
+  } = useDocuments();
+  const { onShare } = useShareLink();
+  const { executeCreateDocumentMutation, data } = useCreateDocument();
 
-  const onCardPress = async (link: string) => {
-    const uri = await getUriToBeShared(link);
+  function onPhotoTaken(photo: CameraCapturedPicture) {
+    if (!photo.base64) return;
 
-    const canBeUsed = await Sharing.isAvailableAsync();
-
-    if (!canBeUsed) return toast.show({ title: 'Cannot share this file' });
-
-    await Sharing.shareAsync(uri);
-  };
-
-  async function getUriToBeShared(link: string) {
-    const fileUri = FileSystem.documentDirectory + 'sharing.png';
-
-    const { uri } = await FileSystem.downloadAsync(link, fileUri);
-
-    return uri;
+    executeCreateDocumentMutation({
+      image_url: photo.base64,
+      title: 'Document',
+    });
   }
 
-  const onFullScreenDocumentPress = (uri: string) => {
-    setCurrentDocumentOnFUllScreen(uri);
-  };
+  function onCardPress(documentId: number) {
+    setCurrentDocumentIdToBeReplaced(documentId);
+    setDocumentCameraIsOpen(true);
+  }
 
   return (
     <View flex={1} bgColor="#1C1C1C">
       <MainBackground link="https://i.etsystatic.com/34570961/r/il/5db996/4530915483/il_1080xN.4530915483_rbep.jpg" />
       <VStack space="8" mt="8">
-        {cards.map((card) => (
-          <Card key={card.label} {...card} onPress={() => {}}>
+        {documents.map((document) => (
+          <Card key={document.label} {...document} onPress={() => onCardPress(document.id)}>
             <Card.IconButton
               iconName="arrow-expand"
-              _icon={{ onPress: () => onFullScreenDocumentPress(card.uri) }}
+              _icon={{ onPress: () => setCurrentDocumentOnFullScreen(document.uri) }}
             />
             <Card.IconButton
               iconName="share-variant"
-              _icon={{ onPress: () => onCardPress(card.uri) }}
+              _icon={{ onPress: () => onShare(document.uri) }}
             />
           </Card>
         ))}
       </VStack>
-      {currentDocumentOnFullScreen && (
-        <Modal isOpen onClose={() => setCurrentDocumentOnFUllScreen(null)}>
-          <HStack position="absolute" w="full" h="full" alignItems="center" justifyContent="center">
-            <Image
-              source={{ uri: currentDocumentOnFullScreen }}
-              alt="a"
-              size={96}
-              resizeMode="contain"
-            />
-          </HStack>
-        </Modal>
-      )}
+      <DocumentCamera onPhotoTaken={onPhotoTaken} />
+      <DocumentImageExpanded />
       <BoxForBottomIcon>
         <BackButton />
       </BoxForBottomIcon>

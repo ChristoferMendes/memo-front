@@ -1,5 +1,4 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Href } from 'expo-router';
 import {
   Image,
   Text,
@@ -8,6 +7,7 @@ import {
   IconButton as NativeBaseIconButton,
   IIconProps,
   HStack,
+  Pressable,
 } from 'native-base';
 import { Poppins_600SemiBold } from 'src/constants/Fonts';
 
@@ -20,11 +20,13 @@ interface CardProps {
 
 function Main({ label, uri, onPress, children }: CardProps) {
   return (
-    <VStack mx="10" space="2" onTouchStart={() => onPress(uri)}>
+    <VStack mx="10" space="2">
       <Text color="white" textAlign="center" fontSize="md" fontFamily={Poppins_600SemiBold}>
         {label.toUpperCase()}
       </Text>
-      <Image source={{ uri }} alt={label} w="full" h="24" borderBottomRightRadius={75} />
+      <Pressable onPress={() => onPress(uri)}>
+        <Image source={{ uri }} alt={label} w="full" h="24" borderBottomRightRadius={75} />
+      </Pressable>
       <View position="absolute" top="9" right="4">
         <HStack space="2">{children}</HStack>
       </View>

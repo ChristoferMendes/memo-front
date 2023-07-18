@@ -1,4 +1,4 @@
-import { User } from '../../src/hooks/auth/useSignIn/useLoginMutation/types';
+import { User } from '@generated/graphql';
 
 export interface AuthProviderValues {
   user: User | null;
