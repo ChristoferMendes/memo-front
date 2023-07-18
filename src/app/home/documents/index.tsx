@@ -4,7 +4,7 @@ import { DocumentCamera } from '@components/DocumentCamera';
 import { DocumentImageExpanded } from '@components/DocumentImageExpanded';
 import { MainBackground } from '@components/MainBackground';
 import { AntDesign } from '@expo/vector-icons';
-import { useCreateDocumentOnPhotoTaken } from '@hooks/useCreateDocumentOnPhotoTaken';
+import { useCreateDocumentOnPhotoConfirmed } from '@hooks/useCreateDocumentOnPhotoTaken';
 import { useDocuments } from '@hooks/useDocuments';
 import { useShareLink } from '@hooks/useShareLink';
 import { FlashList } from '@shopify/flash-list';
@@ -17,7 +17,7 @@ export default function Documents() {
   const { setDocumentCameraIsOpen } = useDocumentCameraIsOpen();
   const { onShare } = useShareLink();
   const { documents } = useDocuments();
-  useCreateDocumentOnPhotoTaken();
+  useCreateDocumentOnPhotoConfirmed();
 
   function onOpenCamera() {
     setDocumentCameraIsOpen(true);
@@ -38,12 +38,9 @@ export default function Documents() {
             onPress={() => {}}>
             <Card.IconButton
               iconName="arrow-expand"
-              _icon={{ onPress: () => setCurrentDocumentOnFullScreen(document.image_url) }}
+              onPress={() => setCurrentDocumentOnFullScreen(document.image_url)}
             />
-            <Card.IconButton
-              iconName="share-variant"
-              _icon={{ onPress: () => onShare(document.image_url) }}
-            />
+            <Card.IconButton iconName="share-variant" onPress={() => onShare(document.image_url)} />
           </Card>
         )}
       />

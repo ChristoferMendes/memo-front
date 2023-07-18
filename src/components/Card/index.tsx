@@ -43,9 +43,10 @@ function Main({ label, uri, onPress, children }: CardProps) {
 type IconProps = {
   iconName: keyof typeof MaterialCommunityIcons.glyphMap;
   _icon?: IIconProps;
+  onPress: () => void;
 };
 
-function IconButton({ iconName, _icon }: IconProps) {
+function IconButton({ iconName, onPress, _icon }: IconProps) {
   const { name, size, color, ...restProps } = _icon ?? {};
 
   return (
@@ -53,6 +54,7 @@ function IconButton({ iconName, _icon }: IconProps) {
       bg="dark.100"
       size={8}
       rounded="full"
+      onPress={onPress}
       icon={<MaterialCommunityIcons name={iconName} size={22} color="white" {...restProps} />}
     />
   );

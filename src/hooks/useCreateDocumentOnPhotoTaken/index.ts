@@ -3,7 +3,7 @@ import { useDocumentCameraIsOpen } from '@store/useDocumentCameraIsOpen';
 import { useDocumentPhotoConfirmed } from '@store/useDocumentPhotoTaken';
 import { useEffect } from 'react';
 
-export function useCreateDocumentOnPhotoTaken() {
+export function useCreateDocumentOnPhotoConfirmed() {
   const { photo, cleanPhoto } = useDocumentPhotoConfirmed();
   const { executeCreateDocumentMutation } = useCreateDocument();
   const { setDocumentCameraIsOpen } = useDocumentCameraIsOpen();
