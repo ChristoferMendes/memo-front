@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { Href, Link } from 'expo-router';
 import { Box, Text, VStack } from 'native-base';
 import { Poppins_600SemiBold } from 'src/constants/Fonts';
 
@@ -9,7 +9,7 @@ export function HomeCard({
 }: {
   title: string;
   children?: React.ReactNode;
-  href: string;
+  href: Href<''>;
 }) {
   return (
     <Link href={href}>

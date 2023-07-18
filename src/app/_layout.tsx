@@ -17,7 +17,7 @@ import { useFonts } from 'expo-font';
 import { Slot, Stack } from 'expo-router';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, LogBox } from 'react-native';
 import { usePromise } from 'src/hooks/usePromise';
 import { Apollo } from 'src/services/apollo';
 import { getTokenOnAsyncStorage } from 'src/services/asyncStorage';
@@ -29,6 +29,8 @@ export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
+
+LogBox.ignoreLogs(['Failed prop type']);
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
