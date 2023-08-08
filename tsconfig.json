@@ -17,7 +17,9 @@
       "@graphql/*": ["src/graphql/*"],
       "@entities/*": ["src/entities/*"],
       "@store/*": ["src/store/*"],
-      "@generated/*": ["src/__generated__/*"]
+      "@generated/*": ["src/__generated__/*"],
+      "@ui-kit/*": ["src/ui-kit/*"],
+      "@assets/*": ["assets/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]

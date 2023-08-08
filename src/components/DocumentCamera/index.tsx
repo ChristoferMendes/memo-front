@@ -1,8 +1,10 @@
 import { CameraFullScreen } from '@components/CameraFullScreen';
 import { useCamera } from '@hooks/useCamera';
+import { useCameraPermissions } from '@hooks/useCameraPermissions';
 import { useDocumentCameraIsOpen } from '@store/useDocumentCameraIsOpen';
 import { useDocumentPhotoConfirmed } from '@store/useDocumentPhotoTaken';
 import { usePreviewSelectedDocumentType } from '@store/usePreviewSelectedDocumentType';
+import * as DocumentCameraUtils from '@ui-kit/DocumentCameraUtils';
 import { FlipType, SaveFormat, manipulateAsync } from 'expo-image-manipulator';
 
 export function DocumentCamera() {
@@ -38,25 +40,21 @@ export function DocumentCamera() {
     storePhoto({ title: '', type: selectedDocumentType, url: photoTaken.base64 });
   }
 
+  if (!documentCameraIsOpen) return null;
+
   return (
-    <>
-      {documentCameraIsOpen && (
-        <>
-          <CameraFullScreen setRef={setCamera}>
-            <CameraFullScreen.HeaderActionButtonsContainer>
-              {photoTaken?.base64 && <CameraFullScreen.EditButton onPress={rotate90AndFlip} />}
-              <CameraFullScreen.CloseButton onPress={onCloseButton} />
-            </CameraFullScreen.HeaderActionButtonsContainer>
-            <CameraFullScreen.TakePictureButton onPress={takePicture} />
-            {photoTaken?.base64 && (
-              <CameraFullScreen.Preview base64={photoTaken.base64}>
-                <CameraFullScreen.PreviewSelect />
-                <CameraFullScreen.SubmitButton onPress={onSubmit} />
-              </CameraFullScreen.Preview>
-            )}
-          </CameraFullScreen>
-        </>
+    <CameraFullScreen setRef={setCamera}>
+      <CameraFullScreen.HeaderActionButtonsContainer>
+        {photoTaken?.base64 && <CameraFullScreen.EditButton onPress={rotate90AndFlip} />}
+        <CameraFullScreen.CloseButton onPress={onCloseButton} />
+      </CameraFullScreen.HeaderActionButtonsContainer>
+      <CameraFullScreen.TakePictureButton onPress={takePicture} />
+      {photoTaken?.base64 && (
+        <CameraFullScreen.Preview base64={photoTaken.base64}>
+          <CameraFullScreen.PreviewSelect />
+          <CameraFullScreen.SubmitButton onPress={onSubmit} />
+        </CameraFullScreen.Preview>
       )}
-    </>
+    </CameraFullScreen>
   );
 }

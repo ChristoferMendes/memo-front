@@ -8,6 +8,8 @@ import { AnimatePresence } from 'moti';
 import { Button, HStack, ScrollView, Text, VStack, View } from 'native-base';
 import { useState } from 'react';
 
+import { VerticalDivider } from '../../../ui-kit/VerticalDivider';
+
 export default function Login() {
   const [isRegister, setIsRegister] = useState(false);
 
@@ -22,11 +24,11 @@ export default function Login() {
         <VStack mx="8" mt="5">
           <AnimatePresence>{isRegister ? <RegisterForm /> : <LoginForm />}</AnimatePresence>
           <VStack alignItems="center">
-            <LoginDivider />
+            <VerticalDivider />
             <Text color="white" fontSize="lg" fontFamily={Poppins_600SemiBold}>
               OR
             </Text>
-            <LoginDivider />
+            <VerticalDivider />
           </VStack>
           <Button bg="#084E4E" borderRadius="lg" onPress={toggleRegister} mb="5">
             <HStack space="2" alignItems="center">

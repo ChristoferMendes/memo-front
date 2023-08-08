@@ -4,7 +4,7 @@ import { DOCUMENTS_BY_USER } from '@graphql/documents';
 
 export function useDocuments() {
   const { user } = useAuth();
-  const { data } = useQuery(DOCUMENTS_BY_USER, { variables: { user_id: user?.id ?? 0 } });
+  const { data, loading } = useQuery(DOCUMENTS_BY_USER, { variables: { user_id: user?.id ?? 0 } });
 
-  return { documents: data };
+  return { documents: data?.documentsByUser, loading };
 }

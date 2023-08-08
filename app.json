@@ -12,7 +12,16 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "We needs camera permissions to allow you to take photos of the documents"
+      },
+      "bundleIdentifier": "com.eatcited.alpha"
+    },
     "ios": {
       "supportsTablet": true
     },
