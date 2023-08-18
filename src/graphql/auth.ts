@@ -7,6 +7,7 @@ export const LOGIN = gql(`
         id
         name
         email
+        password
       }
       token
     }
@@ -29,6 +30,7 @@ export const WHO_AM_I = gql(`
       id
       name
       email
+      password
     }
   }
 `);

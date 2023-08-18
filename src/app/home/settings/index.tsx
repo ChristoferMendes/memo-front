@@ -1,5 +1,6 @@
 import { AntDesign } from '@expo/vector-icons';
 import { Button, HStack, Image, Text, Tooltip, VStack, View } from 'native-base';
+import { useRef } from 'react';
 import { BackButton } from 'src/components/BackButton';
 import { BoxForBottomIcon } from 'src/components/BoxForBottomIcon';
 import { MainBackground } from 'src/components/MainBackground';
@@ -10,6 +11,7 @@ import { useAuth } from '../../../context/auth';
 
 export default function Settings() {
   const { user, signOut } = useAuth();
+  const userRef = useRef(user);
   const [isQuestion, onOpenIsQuestion, onCloseIsQuestion] = useBooleanState();
   const [isCurrentThemeOpen, onOpenCurrentTheme, onCloseCurrentTheme] = useBooleanState();
 
@@ -45,7 +47,7 @@ export default function Settings() {
         />
         <VStack justifyContent="center">
           <Text color="white" fontSize="md" fontFamily={Poppins_700Bold}>
-            {user?.name}
+            {userRef?.current?.name}
           </Text>
           <Text color="gray.400" fontSize="md" fontFamily={Poppins_700Bold}>
             Full stack developer

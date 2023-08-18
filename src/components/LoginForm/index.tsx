@@ -37,14 +37,11 @@ export function LoginForm() {
 
   const onLogin = async (data: UserLoginType) => {
     onOpen();
-    const [result, error] = await tryCatch(login(data.email, data.password));
+    const result = await login(data.email, data.password);
 
-    if (error || !result?.data) {
-      onClose();
-      return setError('email', { message: DEFAULT_ERROR_MESSAGE });
-    }
+    if (!result.data) return;
 
-    storeTokenOnAsyncStorage(result.data.login.token);
+    storeTokenOnAsyncStorage(result.data?.login.token);
     signIn(result.data.login.user);
   };
 

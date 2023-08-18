@@ -1,4 +1,4 @@
-import { User } from '@entities/User/user.base.types';
+import { User } from '@generated/graphql';
 import { useRouter, useSegments } from 'expo-router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useMe } from 'src/hooks/auth/useMe';
