@@ -17,7 +17,7 @@ export function GrantAccessModal({ onConfirm }: GrantAccessModalProps) {
 
   return (
     <Modal isOpen>
-      <Modal.Content>
+      <Modal.Content w="80">
         <Modal.CloseButton />
 
         <Logo />
@@ -34,7 +34,7 @@ export function GrantAccessModal({ onConfirm }: GrantAccessModalProps) {
               the camera
             </Text>
           </VStack>
-          <HStack justifyContent="flex-end" space="3" mr="4">
+          <HStack justifyContent="flex-end" space="3" mr="1">
             <Button
               leftIcon={<Feather name="camera-off" color="white" size={26} />}
               bgColor="red.600"

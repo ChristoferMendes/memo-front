@@ -1,19 +1,20 @@
 import { Poppins_400Regular, Poppins_600SemiBold } from '@constants/Fonts';
 import { Feather, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { useGrantPermissionOnMobileSettings } from '@hooks/useGrantPermissionOnMobileSettings';
 import { Logo } from '@ui-kit/Logo';
-import { openSettings } from 'expo-linking';
 import { useNavigation } from 'expo-router';
 import { Button, Divider, HStack, Modal, Text, VStack } from 'native-base';
 
 export function CannotAskAgainModal() {
   const navigation = useNavigation();
+  const { requestAccess } = useGrantPermissionOnMobileSettings();
 
   const onClose = () => {
     navigation.goBack();
   };
 
   return (
-    <Modal isOpen>
+    <Modal isOpen w="96">
       <Modal.Content>
         <Modal.CloseButton />
         <Logo />
@@ -40,7 +41,7 @@ export function CannotAskAgainModal() {
             <Button
               leftIcon={<Feather name="settings" size={26} color="white" />}
               bgColor="green.600"
-              onPress={openSettings}>
+              onPress={requestAccess}>
               Go to Settings
             </Button>
           </Button.Group>

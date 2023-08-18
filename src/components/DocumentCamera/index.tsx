@@ -1,6 +1,6 @@
 import { CameraFullScreen } from '@components/CameraFullScreen';
 import { useCamera } from '@hooks/useCamera';
-import { useCameraPermissions } from '@hooks/useCameraPermissions';
+import { useLoadCameraPermissions } from '@hooks/useCameraPermissions';
 import { useDocumentCameraIsOpen } from '@store/useDocumentCameraIsOpen';
 import { useDocumentPhotoConfirmed } from '@store/useDocumentPhotoTaken';
 import { usePreviewSelectedDocumentType } from '@store/usePreviewSelectedDocumentType';
