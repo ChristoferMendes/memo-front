@@ -10,8 +10,8 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "eslint . --fix",
-    "compile": "graphql-codegen",
-    "watch": "graphql-codegen -w"
+    "graphql:compile": "graphql-codegen",
+    "graphql:compile-watch": "graphql-codegen -w"
   },
   "jest": {
     "preset": "jest-expo"
