@@ -1,4 +1,6 @@
 import { User } from '@generated/graphql';
+import { removeTokenOnAsyncStorage } from '@services/asyncStorage';
+import { useToken } from '@store/token';
 import { useRouter, useSegments } from 'expo-router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useMe } from 'src/hooks/auth/useMe';
@@ -29,6 +31,7 @@ function useProtectedRoute(user: User | null) {
 export default function AuthProvider({ children }: { children: JSX.Element }) {
   const [user, setUser] = useState<User | null>(null);
   const { data } = useMe();
+  const { setToken } = useToken();
 
   useEffect(() => {
     if (!data) return;
@@ -41,7 +44,11 @@ export default function AuthProvider({ children }: { children: JSX.Element }) {
   const signIn = (user: User) => {
     setUser(user);
   };
-  const signOut = () => setUser(null);
+  const signOut = () => {
+    removeTokenOnAsyncStorage();
+    setUser(null);
+    setToken('');
+  };
   const values = useMemo(() => ({ user, signIn, signOut }), [user]);
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

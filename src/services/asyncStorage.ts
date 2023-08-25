@@ -19,4 +19,12 @@ const getTokenOnAsyncStorage = async () => {
   return result;
 };
 
-export { getTokenOnAsyncStorage, storeTokenOnAsyncStorage };
+const removeTokenOnAsyncStorage = async () => {
+  const [, error] = await tryCatch(AsyncStorage.removeItem('token'));
+
+  if (error) {
+    console.warn('Error on remove token on async storage', error);
+  }
+};
+
+export { getTokenOnAsyncStorage, storeTokenOnAsyncStorage, removeTokenOnAsyncStorage };

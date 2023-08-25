@@ -7,6 +7,7 @@ import { useLoginMutation } from '@hooks/auth/useLoginMutation';
 import { useBooleanState } from '@hooks/useBooleanState';
 import { useCreateUserMutation } from '@hooks/useCreateUserMutation';
 import { storeTokenOnAsyncStorage } from '@services/asyncStorage';
+import { useToken } from '@store/token';
 import { useFocusEffect } from 'expo-router';
 import { MotiView } from 'moti';
 import { Button, Icon } from 'native-base';
@@ -35,6 +36,7 @@ export function RegisterForm() {
   const [login] = useLoginMutation(setError);
   const [isLoading, onOpenLoading, onCloseLoading] = useBooleanState();
   const { signIn } = useAuth();
+  const { setToken } = useToken();
 
   const onRegister = async (formData: UserRegisterType) => {
     onOpenLoading();
@@ -53,7 +55,9 @@ export function RegisterForm() {
       return setError('email', { message: DEFAULT_ERROR_MESSAGE });
     }
 
-    storeTokenOnAsyncStorage(loginResult.data?.login.token);
+    const { token } = loginResult.data.login;
+    storeTokenOnAsyncStorage(token);
+    setToken(token);
     signIn(loginResult.data.login.user);
   };
 

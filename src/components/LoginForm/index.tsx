@@ -1,6 +1,7 @@
 import { UserLoginType, UserSchema } from '@entities/User/auth/login';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useToken } from '@store/token';
 import { useFocusEffect } from 'expo-router';
 import { MotiView } from 'moti';
 import { Button, Icon } from 'native-base';
@@ -34,6 +35,7 @@ export function LoginForm() {
   const [login] = useLoginMutation(setError);
   const [isLoading, onOpen, onClose] = useBooleanState();
   const { signIn } = useAuth();
+  const { setToken } = useToken();
 
   const onLogin = async (data: UserLoginType) => {
     onOpen();
@@ -41,7 +43,9 @@ export function LoginForm() {
 
     if (!result.data) return;
 
-    storeTokenOnAsyncStorage(result.data?.login.token);
+    const { token } = result.data.login;
+    storeTokenOnAsyncStorage(token);
+    setToken(token);
     signIn(result.data.login.user);
   };
 

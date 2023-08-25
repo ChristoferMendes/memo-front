@@ -27,7 +27,6 @@ export const useDocuments = create<IDocuments>((set) => ({
   },
   updateDocumentUriById(id, uri) {
     set((state) => {
-      console.log(id);
       const documents = state.documents.map((document) => {
         const isTheDocumentToBeUpdated = document.id === id;
 
